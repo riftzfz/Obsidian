@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "functions": {
+    "api/files/[...path].js": {
+      "includeFiles": "Sync-API/files/**"
+    },
+    "api/validator/index.js": {
+      "includeFiles": "Sync-API/validator/**,Sync-API/files/**"
+    },
+    "api/validator/[...path].js": {
+      "includeFiles": "Sync-API/validator/**,Sync-API/files/**"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api/validator"
+    },
+    {
+      "source": "/files/:path*",
+      "destination": "/api/files/:path*"
+    },
+    {
+      "source": "/validator",
+      "destination": "/api/validator"
+    },
+    {
+      "source": "/validator/:path*",
+      "destination": "/api/validator/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/files/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/validator(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ]
+}
